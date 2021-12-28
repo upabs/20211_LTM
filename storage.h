@@ -27,8 +27,12 @@ typedef struct question {
 
 typedef struct room {
     char name[100];
-    
 } Room;
+
+typedef struct room_point {
+    char stud_name[100];
+    char point[20];
+} RoomPoint;
 
 typedef struct node {
     void *value;
@@ -59,6 +63,8 @@ void addEnd(List* l, void* value);
 List getAllRooms(char *f_room);
 List getAllAccount(char *acc_file);
 List getAllQuestion(char *ques_file);
+List getAllRoomPoint(char *file);
+
 List getQuestionsByLevel(char *ques_file, int level);
 
 int compareRoomByName(void* room, void* name);
@@ -68,11 +74,13 @@ int compareQuestionByLevel(void* question, void* level);
 void printRoom(void* room);
 void printAccount(void* account);
 void printQuestion(void* quesiton);
+// void printRoomPoint(void* roomPoint);
 
 void printList(List l, void (*print)(void*));
 void printRoomList(List l);
 void printQuesList(List l);
 void printAccList(List l);
+// void printRoomPointList(List l);
 
 Node search(List *l, void* key, int (*compare)(void*, void*));
 Room* searchRoomByName(List *l, char* name);
@@ -84,10 +92,6 @@ Room* deleteRoomByName(List *l, char* name);
 
 int saveAllRoom(char* room_f, List l);
 int saveAllQuestions(char* ques_f, List l);
-
-
-
-
 
 int randUniqueArr(int arr[], int arr_size, int min, int max);
 char* quesToString(Question *q, char* s);

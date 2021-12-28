@@ -198,6 +198,8 @@ void handleRes(char *res, char *req) {
         
     } else if (strcmp(op, "SHOW_POINT_OK") == 0) {
         // printf("\n[%s]\n", op);
+        printf("\n________Resutl______\n");
+        printf("%s\n", message);
         
     } else if (strcmp(op, "SHOW_POINT_NOT_OK") == 0) {
         // printf("\n[%s]\n", op);

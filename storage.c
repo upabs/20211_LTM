@@ -135,6 +135,26 @@ List getAllQuestion(char *ques_file) {
     return l;
 }
 
+List getAllRoomPoint(char *file) {
+    char stud_name[100] = "";
+    char point[20] = "";
+
+    FILE *f = fopen(file, "r");
+    List l = newList();
+    if (f == NULL)  return l;
+
+    RoomPoint *rp;
+    while(fscanf(f, "%s %s\n", stud_name, point) != EOF){
+        rp = (RoomPoint*) malloc(sizeof(RoomPoint));
+        // printf("name: %s.. point: %d..\n", stud_name, point);
+        strcpy(rp->stud_name, stud_name);
+        strcpy(rp->point, point);
+        addEnd(&l, rp);
+    }
+    fclose(f);
+    return l;
+}
+
 int compareRoomByName(void* room, void* name) {
     Room* r = (Room*)room;
     char* n = (char*)name;
@@ -176,6 +196,7 @@ void printQuestion(void* quesiton) {
     }
     printf("answer: %s..\n\n", q->answer);
 }
+
 
 void printList(List l, void (*print)(void*)) {
     Node node = l.head;
@@ -426,3 +447,9 @@ List makeQues() {
 
     return quesL;
 }
+
+// int main() {
+//     List l = getAllRoomPoint("result/room1");
+//     printf("len: %d,,\n", l.count);
+
+// }

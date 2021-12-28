@@ -167,7 +167,7 @@ void makeRes(char *res, char *op, char *message) {
 
 void sendRes(char *res) {
     if (res == NULL) return;
-    // printf("\nRes: %s..\n", res);
+    printf("\nRes: %s..\n", res);
     send(fd, res, strlen(res), 0);
 }
 
@@ -237,7 +237,9 @@ int createRoom(char *room_name) {
     strcat(file, RESULT_FOLDER);
     strcat(file, "/");
     strcat(file, room_name);
-    printf("file path: %s..\n", file);
+    strcat(file, ".txt");
+
+    // printf("file path: %s..\n", file);
     FILE *f = fopen(file, "w");
     // if (f) {fclose(f);}
     fclose(f);
@@ -257,6 +259,7 @@ int deleteRoom(char *room_name) {
         strcat(file, RESULT_FOLDER);
         strcat(file, "/");
         strcat(file, room_name);
+        strcat(file, ".txt");
         
         if (remove(file) == 0) {
             // printf("deletefileok\n");
@@ -328,7 +331,7 @@ int startTest() {
         memset(buf, 0, MAXLINE);
         n = n->next;
     }
-    printf("\npoint: %d\n", point);
+    // printf("\npoint: %d\n", point);
     
     return 1;
 }
@@ -359,15 +362,32 @@ int addQuestion(char *ques) {
 
 int showPoint(char *room_name) {
     char file[MAX] = "";
+    char buf[MAXLINE] = "";
     char res[MAXLINE];
+    
     List roomL = getAllRooms(ROOM_FILE);
     Room *r = searchRoomByName(&roomL, room_name);
     if (r) {
         strcpy(file, RESULT_FOLDER);
         strcat(file, "/");
         strcat(file, room_name);
+        strcat(file, ".txt");
 
-        makeRes(res, "SHOW_POINT_OK", "");
+        List roompL = getAllRoomPoint(file);
+        Node n = roompL.head;
+        for (int i = 0; i<roompL.count; i++) {
+            RoomPoint *rp = (RoomPoint*)n->value;
+            // printf("name: %s.. point: %d..\n", rp->stud_name, rp->point);
+            strcat(buf, "\n");
+            strcat(buf, rp->stud_name);
+            strcat(buf, "\t");
+            strcat(buf, rp->point);
+
+            printf("buf: %s..\n", buf);
+            n = n->next;
+        }
+
+        makeRes(res, "SHOW_POINT_OK", buf);
         sendRes(res);
         return 1;
     } else {
