@@ -14,8 +14,11 @@
 #define SERV_PORT 3000 /*port*/
 #define LISTENQ 8 /*maximum number of client connections*/
 
-Account acc;
+
 int point;
+char currentUserName[100];
+char currentRoom[100];
+
 int fd;
 
 int main (int argc, char **argv)
@@ -189,6 +192,7 @@ int loginStudent(char *username, char *password) {
                 } else strcat(buf, r->name);
                 n = n->next;
             }
+            strcpy(currentUserName, username); // 
             makeRes(res, "LOGIN_STUDENT_OK", buf);
             sendRes(res);
             return 1;
@@ -296,6 +300,7 @@ int joinRoom(char *room_name) {
 
     List roomL = getAllRooms(ROOM_FILE);
     if (searchRoomByName(&roomL, room_name)) {
+        strcpy(currentRoom, room_name);
         makeRes(res, "JOIN_ROOM_OK", "");
         sendRes(res);
         return 1;
@@ -333,6 +338,23 @@ int startTest() {
     }
     // printf("\npoint: %d\n", point);
     
+    char f[100];
+    strcpy(f, RESULT_FOLDER);
+    strcat(f, "/");
+    strcat(f, currentRoom);
+    strcat(f, ".txt");
+
+    List roompL = getAllRoomPoint(f);
+    RoomPoint *rp = searchRoomPoint(&roompL, currentUserName);
+    if (rp) {
+        sprintf(rp->point, "%d", point);
+    } else {
+        RoomPoint *new = (RoomPoint*)malloc(sizeof(RoomPoint));
+        strcpy(new->stud_name, currentUserName);
+        sprintf(new->point, "%d", point);
+        addEnd(&roompL, new);
+    }
+    saveAllRoomPoint(f, roompL);
     return 1;
 }
 

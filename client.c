@@ -146,6 +146,7 @@ void startTest() {
             sendReq(req);
             break;
         case 2:
+            return;
             break;
     }
     handleRes(res, req);

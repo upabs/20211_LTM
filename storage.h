@@ -68,6 +68,7 @@ List getAllRoomPoint(char *file);
 List getQuestionsByLevel(char *ques_file, int level);
 
 int compareRoomByName(void* room, void* name);
+int compareRoomPoint(void* rp, void* username);
 int compareAccountByUserName(void* account, void* username);
 int compareQuestionByLevel(void* question, void* level);
 
@@ -85,6 +86,7 @@ void printAccList(List l);
 Node search(List *l, void* key, int (*compare)(void*, void*));
 Room* searchRoomByName(List *l, char* name);
 Account* searchAccountByUsername(List *l, char* name);
+RoomPoint* searchRoomPoint(List *l, char* acc_name);
 Question* searchQuestionByPosition(List *l, int position);
 
 Node deleteA(List* l, void* key, int (*compare)(void*, void*));
@@ -92,6 +94,7 @@ Room* deleteRoomByName(List *l, char* name);
 
 int saveAllRoom(char* room_f, List l);
 int saveAllQuestions(char* ques_f, List l);
+int saveAllRoomPoint(char* result_f, List l);
 
 int randUniqueArr(int arr[], int arr_size, int min, int max);
 char* quesToString(Question *q, char* s);

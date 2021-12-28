@@ -171,6 +171,14 @@ int compareAccountByUserName(void* account, void* username) {
     } return 0;
 }
 
+int compareRoomPoint(void* rp, void* username) {
+    RoomPoint* x = (RoomPoint*)rp;
+    char* n = (char*)username;
+    if (strcmp(x->stud_name, n) == 0) {
+        return 1;
+    } return 0;
+}
+
 int compareQuestionByLevel(void* question, void* level) {
     Question* ques = (Question*)question;
     int lv = atoi((char*)level);
@@ -250,6 +258,14 @@ Account* searchAccountByUsername(List *l, char* name) {
     return NULL;
 }
 
+RoomPoint* searchRoomPoint(List *l, char* acc_name) {
+    Node n = search(l, acc_name, compareRoomPoint);
+    if (n) {
+        return (RoomPoint*)n->value;
+    }
+    return NULL;
+}
+
 Node deleteA(List* l, void* key, int (*compare)(void*, void*)) {
     Node current = l->head;
     Node prev = NULL;
@@ -315,6 +331,23 @@ int saveAllQuestions(char* ques_f, List l) {
                     q->answer);
         node = node->next;
     }
+    return 1;
+}
+
+int saveAllRoomPoint(char* result_f, List l) {
+    RoomPoint* r;
+    Node node = l.head;
+    FILE *f = fopen(result_f, "w");
+    if (f == NULL) {
+        return 0;
+    }
+    while (node != NULL) {
+        r = (RoomPoint*)node->value;
+        fprintf(f, "%s\t%s\n", r->stud_name, r->point);
+        fprintf(stdout, "%s\t%s\n", r->stud_name, r->point);
+        node = node->next;
+    }
+    fclose(f);
     return 1;
 }
 
@@ -449,7 +482,21 @@ List makeQues() {
 }
 
 // int main() {
-//     List l = getAllRoomPoint("result/room1");
+//     List l = getAllRoomPoint("result/room1.txt");
 //     printf("len: %d,,\n", l.count);
 
+//     // RoomPoint rp;
+//     // strcpy(rp.stud_name, "chotaiancut");
+//     // strcpy(rp.point, "10");
+
+//     // addEnd(&l, &rp);
+
+//     // printf("len: %d,,\n", l.count);
+//     // saveAllRoomPoint("result/room1.txt", l);
+
+//     // RoomPoint *x = searchRoomPoint(&l, "chotaiancut");
+//     // if (x) {
+//     //     printf("ok\n");
+//     //     printf("%s - %s\n", x->stud_name, x->point);
+//     // }
 // }

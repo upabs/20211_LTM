@@ -1,2 +1,1 @@
-cuTai 10
-CuChien 11
+student1	aaa
