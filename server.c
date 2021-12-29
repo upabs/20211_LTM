@@ -64,7 +64,7 @@ int main (int argc, char **argv)
 
             //close listening socket
             close (listenfd);
-            printf("fd: %d\n", connfd);
+            // printf("fd: %d\n", connfd);
             while (1)  {
                 handle(req, res);    
             }
@@ -170,7 +170,7 @@ void makeRes(char *res, char *op, char *message) {
 
 void sendRes(char *res) {
     if (res == NULL) return;
-    printf("\nRes: %s..\n", res);
+    // printf("\nRes: %s..\n", res);
     send(fd, res, strlen(res), 0);
 }
 
