@@ -344,7 +344,7 @@ int saveAllRoomPoint(char* result_f, List l) {
     while (node != NULL) {
         r = (RoomPoint*)node->value;
         fprintf(f, "%s\t%s\n", r->stud_name, r->point);
-        fprintf(stdout, "%s\t%s\n", r->stud_name, r->point);
+        // fprintf(stdout, "%s\t%s\n", r->stud_name, r->point);
         node = node->next;
     }
     fclose(f);
