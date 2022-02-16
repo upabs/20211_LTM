@@ -9,7 +9,6 @@
 
 #define MAXLINE 4096 /*max text line length*/
 #define MAX 100
-#define SERV_PORT 3000 /*port*/
 
 
 int sockfd;
@@ -23,8 +22,8 @@ int main(int argc, char **argv)
         
     //basic check of the arguments
     //additional checks can be inserted
-    if (argc !=2) {
-    perror("Usage: TCPClient <IP address of the server"); 
+    if (argc !=3) {
+    perror("Usage: Client <IP server> <PORT>"); 
     exit(1);
     }
         
@@ -39,7 +38,7 @@ int main(int argc, char **argv)
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr= inet_addr(argv[1]);
-    servaddr.sin_port =  htons(SERV_PORT); //convert to big-endian order
+    servaddr.sin_port =  htons(atoi(argv[2])); //convert to big-endian order
         
     //Connection of the client to the socket 
     if (connect(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr))<0) {
